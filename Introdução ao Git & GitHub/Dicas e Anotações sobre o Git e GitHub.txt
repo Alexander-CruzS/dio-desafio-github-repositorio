@@ -1,0 +1,198 @@
+GIT: (Instala na maquina )
+Sistema gerenciador  de codigo fonte e versionador.
+
+
+GITHUB: 
+local onde publicamos nossos repositorios de forma remota para que outros desenvolvedores possam ver.
+
+Passo a passo do git 
+1- init
+2- Adiciona arquivos na pilha de comit
+3- faz comit 
+4- faz pull (atualiza seu projeto com o que foi alterado dos seus colegas )
+5- faz o push (manda para o remoto)
+
+
+
+BENEFICIOS DE APRENDER GIT E GITHUB
+
+controle de versao
+armazenamento em nuvem
+trabalho em equipe 
+melhorar seu codigo
+reconhecimento
+
+COMANDOS CDM WINDOWNS
+
+Mudar de pasta
+cd
+cd / (volta para a pasta C)
+cd .. (voltar para a pasta anterior)
+cls (limpa a tela)
+TAB (auto completa o nome da pasta)
+
+Listar as pastas
+dir
+
+Criar pastas/arquivos
+mkdir
+ex: mkdir workspace
+
+>echo(printa o teste que voce escreve ) hello > (> direciona o fluxo e joga para o arquivo)hello.txt ** cria um arquivo
+
+Deletar pastas/arquivos
+del / rmdir
+
+>rmdir workspace /S  /Q (comando para remover todo o repositorio)
+
+
+SHA1
+- É um algoritimo de encriptação. Um algoritmo que pega sua foto e embaralha.
+- (A encriptação gera conjuntos de characteres identificador de 40 digitos)
+- é uma forma curta de representar um arquivo.
+
+**comando no GIT $ openssl sha1 palavras.txt (sempre gera uma nova chave em qlq alteração)
+SHA1(palavras.txt)= 1a182b30437b8b42004171af194725b9e1097d83
+
+
+
+OBJETOS FUNDAMENTAIS (responsavel pelo versionamento)
+Blobs:
+comando no GIT  echo 'conteudo' | git hash-object --stdin (mostra o seu sha1)
+no blob armazena os objetos, ele tera o tipo, o tamanho, uma barra contrario com 0 e o conteudo do arquivo.
+
+Trees:(As arvores)
+
+Armazenam e apontam os blobs, tem o sha1 do metadado, a arvore grava o nome do arquivo.
+
+Commits:
+o objeto que junta tudo, aponta todas as informações e atualizações das versoes.
+
+
+SISTEMAS DISTRIBUIDO 
+SEGURANÇA
+sistema seguro.
+
+CHAVES SSH E TOKENS
+
+CHAVES SSH
+Forma de estabelecer uma conexão segura e encriptada entre duas maquinas.
+
+1 - Como criar uma chave no GIT
+
+$ ssh-keygen -t ed25519 -C alexanderdacruzs@gmail.com
+
+para navegar nas pastas do GIT use cd 
+
+ex: cd /C/Users/alexa/.ssh/
+
+ls : lista os arquivos
+
+
+
+2 -comando no GIT (para mostrar a chave publica) cat id_ed25519.pub
+
+chave: 
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIHVrHMGPSJu9sIPnYz1Xu6YDXWC/kz9bnr1wAkvppjC alexanderdacruzs@gmail.com
+
+-> adicionar a chave no GITHUB
+
+comando pwd mostra o caminho completo
+ex: /C/Users/alexa/.ssh
+
+3 - eval $(ssh-agent -s)  **comando para start do projeto
+
+
+ ssh-add id_ed25519  **comando para adcionar a chave privada.
+
+git clone git@github.com:Alexander-CruzS/projeto1-alexander-cruzs.git
+-> yes
+**Utilizado para clonar um projeto no git
+
+
+
+TOKEM DE ACESSO PESSOAL
+
+-> definições
+-> configurações do desenvolvedor
+-> Tokens de acesso pessoal
+-> Gerar novo token
+-> Observação (Informar um nome para o token)
+-> Gerar token
+
+
+
+INICIAR O GIT
+git init (quando usamos esse comando estamos criando um repositorio)
+
+Comando no GIT: ls -a  **(mostra arquivos ocultos)
+
+Comando para gerar um autor para o commit: ** git config --global user.email "alexanderdacruzs@gmail.com"
+
+e o comando para criar usuario
+**git config --global user.name alex
+
+
+
+INICIAR O VERSIONAMENTO 
+git add
+
+
+CRIAR UM COMMIT
+git commit
+
+
+
+MARKDOWN (.md)
+Uma forma mais humana de escrever o html
+
+**Comandos para iniciar o commit**
+
+git add * (prepara todos arquivos para ser commitado)
+git add . (add todos os arquivos que não foram commitados)
+
+ex: git add lasanha.md receitas/(prepara o arquivo para ser commitado)
+
+
+git commit -m "commit inicial"
+
+TRACKED 
+sao arquivos que o git sabe da existencia deles.
+
+git status (ajuda a monitorar os status dos arquivos)
+
+git config --list (mostra em qual e-mail a maquina esta atrelada no Github para realizar o commit)
+
+Comandos usados para excluir os emais atrelados para identificar os commits.
+git config --global --unset user.email
+git config --global --unset user.name
+
+
+APOS CRIAR UM NOVO REPOSITORIO NO GITHUB VAMOS PARA O GIT E UTILIZAMOS O COMANDO ABAIXO PARA ENVIAR O ARQUIVO DA MAQUINA PARA O GITHUB :
+
+ex:
+git remote add origin git remote add origin https://github.com/Alexander-CruzS/livro-receitas.git
+
+
+Lista as listas remotas cadastradas
+** 
+git remote -v
+
+
+comando no git (origin é o nome dado no link do github)
+$ git push origin master  
+**Envia o codigo da maquina para o Github
+**A brech que estamos enviando para o arquivo para o repositorio
+
+conflito de marge.. Quando tem duas pessoas alterando a msm linha ao mesmo tempo
+
+PULL
+
+Comando no git ** git pull origin master
+puxar o que esta no github para a maquina
+
+
+COMO FAZER O CLONE
+Comando ** git clone "informar o http do github "
+
+**DEPOIS DE CRIAR O REPOSITORIO NO GITHUB É NECESSARIO REALIZAR O COMMIT NO PROPRIO GITHUB E DEPOIS REALIZAR O CLONE
