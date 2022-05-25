@@ -1,0 +1,465 @@
+Banco de Dados:
+Local onde é armazenado informações.
+--------------------------------------------------
+SQl: 
+Linguagem de codigo utilizada para verificar, inserir, remover, alterar dados dentro de um banco de dados relacional.
+---------------------------------------------------
+Primary key:
+Id da tabela, identifica os dados da tabela.
+---------------------------------------------------
+Column (atributo).
+---------------------------------------------------
+row: 
+Linha da tabela
+---------------------------------------------------
+Data Value:
+Conteudo da tabela
+---------------------------------------------------
+Foreign key:
+Chave importada de uma outra tabela
+---------------------------------------------------
+
+SELECT : Seleciona a tabela
+FROM: seleciona a linha	
+ORDER BY: ordena em ordem alfabetica
+WHERE: consegue filtrar qlq linha dentro da tabela.(WHERE actor_id= 100)
+--------------------------------------------------
+Operador IN:
+ex: WHERE district IN ('Alberta', 'Texas');
+conseguimos adcionar multiplas entradas e filtrar varios district.
+--------------------------------------------------
+BETWEEN:
+Entre um valor e outro. Utilizado para puxar uma rand q esta dentro de um inicio e fim.
+ex: WHERE amount BETWEEN 1.99.
+--------------------------------------------------
+LIKE:
+WHERE first_name LIKE 'a%'; 
+Analisa dentro do campo qual dado inicia com a letra 'a';
+% significa a partir de a.
+
+'abc' LIKE 'abc'    verdade
+'abc' LIKE 'a%'     verdade
+'abc' LIKE '_b_'    verdade
+'abc' LIKE 'c'      falso
+
+---------------------------------------------------
+IS NULL:
+Analisa qual campo esta vazio.
+
+WHERE address2 IS NULL
+---------------------------------------------------
+LIMIT:
+
+LIMIT 10 mostra os primeiros registros.
+LIMIT 5, 10 mostra a partir 5;
+------------------------------------------------------
+REGEXP:
+Fazer um mix de varias expressoes e ter um resultado mais simples.
+WHERE first_name REGEXP 'a' encontra todos que tem a letra a.
+WHERE first_name REGEXP '^a' encontra todos que começam com a letra a;
+WHERE first_name REGEXP '^a|^d' encontra todos que incia com a letra a e d;
+
+-------------------------------------------------------
+Join:
+Consegue colocar informações de duas tabelas em uma tela.
+ex:
+SELECT * FROM customer	
+JOIN payment  ON(Informar o criterio) customer.customer_id = payment.payment_id
+
+-------------------------------------------------------
+Filtrando Join
+
+SELECT * FROM customer.customer_id,
+customer.first_name,
+customer.last_name,
+payment.rental_id, 
+payment.amount
+	
+JOIN payment  ON(Informar o criterio) customer.customer+_id = payment.payment_id
+
+--------------------------------------------------------
+Alias: (forma de abreviar) digita na frente*
+ex SELECT * FROM customer cus
+
+--------------------------------------------------------
+Union: une 2 select
+ex:
+
+SELECT * customer_id,
+customer.first_name,
+customer.last_name,
+payment.rental_id, 
+payment.amount
+
+'VIP' AS Status
+FROM customer cus
+
+JOIN payment  pay
+ON customer.customer_id = payment.payment_id
+WHERE pay.amount >= 10.99
+
+UNION 
+
+SELECT * customer_id,
+customer.first_name,
+customer.last_name,
+payment.rental_id, 
+payment.amount
+
+'NON VIP' AS Status
+FROM customer cus
+
+JOIN payment  pay
+ON customer.customer_id = payment.payment_id
+WHERE pay.amount <= 10.99
+
+---------------------------------------------------------
+Add na tabela:
+Primeiro coloca a tabela e depois especifica os campos.
+
+ex; USE sakila;
+
+INSERT INTO language
+VALUES(DEFAULT, 'portuguese', '	2008-02-10 05:02:19')
+
+--------------------------------------------------------
+Inserir varias linhas.
+ex:
+USE sakila;
+
+INSERT INTO language
+VALUES
+(DEFAULT, 'portuguese', '	2008-02-10 05:02:19'),
+(DEFAULT, 'Spanish', '	2008-02-10 05:02:19'),
+(DEFAULT, 'Polish', '	2008-02-10 05:02:19')	
+---------------------------------------------------------
+
+Inserir em multiplos dados em multiplas tabelas:
+ex: 
+USE sakila;
+
+INSERT INTO country
+VALUES (DEFAULT, 'Brasil2', '2035-02-15 04:44:00');
+
+INSERT INTO city
+VALUES (DEFAULT, 'São Paulo2',last_insert_id(), 
+'2034-02-15 04:44:00');
+---------------------------------------------------------
+Copia de tabela:
+Utilizando o CREATE TABLE e depois selecionando, conseguimos fazer a copia.
+
+ex:
+USE sakila;
+
+CREATE TABLE payment_backup AS 
+SELECT * FROM payment
+--------------------------------------------------------
+Removendo a tabela:
+
+Clica com botão direito em cima da tabela e a opção DROP Table = exclui toda a tabela e TRUNCATE table exclui somente os dados da tabela.
+
+-------------------------------------------------------
+Atualizar um registro dentro da tabela:
+
+USE sakila;
+
+UPDATE language
+SET name = 'Portugues'
+WHERE 
+language_id = 8 
+
+-------------------------------------------------------
+Deletar dados da tabela: 
+ex:
+
+USE sakila;
+
+DELETE FROM language
+WHERE language_id = 8
+
+--------------------------------------------------------
+FUNÇÕES:
+
+Max(): mostra o valor maior
+min(): valor menor
+avg(): pega todos os valores e divide pela quantidade e te tras a media.
+SUN(): soma 
+CONT(): Conta de quantas vendas por ex.
+ex: 
+USE sakila;
+
+SELECT   max(amount) AS Maior(MOSTRA OS VALORES COM ESSE TITULO),
+	   min(amount)  AS Menor,
+         avg(amount) AS 'Media de Val',
+         SUN(amount) AS 'Total de venda'
+         CONT(amount) AS 'Numero de vendas'
+FROM payment
+---------------------------------------------------------
+GROUP BY: Agrupa as colunas informadas.
+
+ex: 
+USE sakila;
+
+SELECT 
+customer_id,
+SUM(amount) AS total
+
+FROM payment
+GROUP BY customer_id
+----------------------------------------------------------
+Ordenando os clientes
+
+using: 
+
+ex: 
+USE sakila;
+
+SELECT 
+cus.customer_id,
+cus.first_name,
+cus.last_name,
+SUM(amount) AS total
+
+FROM payment pay
+JOIN customer cus using(customer_id)
+GROUP BY customer_id
+ORDER BY total DESC (*ORDENA DO MAIOR PARA O MENOR)
+------------------------------------------------------------
+FILTRANDO VALORES COM O HAVING:
+
+HAVING total >=150 (AND compras >= 35 ** mostra os que compraram o valor maior de 150 e com mais de 35 compras.
+
+
+------------------------------------------------------------
+IMPORTANDO UMA DATABASE
+Browser digita download sakila database for mysql
+- Faz primeiro o download do schema do sakila (as tabelas )
+- Depois faz o download do database
+
+CLICA NO LINK E PASSA PARA PARTE DE DOCUMENTAÇÃO 
+-REALIZAR O DOWNLOAD EM ZIP
+- EXTRAI O ARQUIVO
+- VÁ ATE O WORKBENCH CLIQUE EM OPEM A SQL(PASTA)
+- ABRA A PASTA E DEPOIS CLIQUE EM EXECULTAR.
+- ATUALIZE OS SCHEMAS
+
+------------------------------------------------------------
+Criando uma Subquery:
+
+USE sakila;
+
+SELECT *                 	QUERY
+FROM  payment
+WHERE amount >(
+ SELECT AVG (amount)          SUBQUERY
+ FROM payment)
+
+------------------------------------------------------------
+Utilizando o IN:
+Tudo que está dentro.
+
+USE sakila;
+
+SELECT *
+FROM customer_id IN(
+SELECT customer_id              	
+  FROM  payment
+  GROUP BY customer_id
+  HAVING COUNT(*) > 35
+
+-------------------------------------------------------------
+Utilizando o ANY:
+Igual a qlq um.
+
+USE sakila;
+
+SELECT *
+FROM customer_id = ANY(
+SELECT customer_id              	
+  FROM  payment
+  GROUP BY customer_id
+  HAVING COUNT(*) > 35
+
+---------------------------------------------------------------
+VIEWS
+São visualizações
+
+USE sakila;
+
+CREATE VIEW vendas_por_cliente AS
+SELECT
+ cus.customer_id,
+ cus.first_name,
+ cus.last_name,
+ pay.amount
+FROM customer cus
+JOIN payment pay
+ ON cus.customer_id = payment_id
+---------------------------------------------------------------
+REPLACE VIEW :
+Consegue realizar qlq alteração na view sem ter que apagar.
+
+USE sakila;
+
+CREATE OR REPLACE VIEW vendas_por_cliente AS
+SELECT
+ cus.customer_id,
+ cus.first_name,
+ cus.last_name,
+ pay.amount
+FROM customer cus
+JOIN payment pay
+ ON cus.customer_id = payment_id
+ORDER BY pay.amount DESC
+
+--------------------------------------------------------------
+Funções Essenciais
+funções com string
+
+TRIM() remove os espaços
+
+SELECT TRIM('Carros')
+SELECT LTRIM('Carros') remove todos a direita
+SELECT LTRIM( BOTH 'a' FROM 'aaaaCarros') remove todos as letras a do começo e do final.
+
+
+SELECT LOCATE('o', 'Carros') Localiza a letra informada
+SELECT Lcase('Carros') tudo em letra minuscula
+SELECT Ucase('Carros') tudo em letra maiuscula
+SELECT length('Carros') informa a quantidade de caractere
+SELECT repeat('Carros', 4) repete a palavra
+---------------------------------------------------------------
+Criar um banco de dados:
+
+
+CREATE DATABASE carros;
+
+*NOT NULL: para nao ficar vazio
+*AUTO_INCREMENT: gera id automatico
+
+criando tabelas e colunas.
+CREATE TABLE marcas(
+id INT NOT NULL AUTO_INCREMENT
+ nome_marca VARCHAR(225) NOT NULL,
+ PRIMARY KEY (id)
+);
+------------------------------------------------------------------
+Atualuizando colunas dentro da tabela 
+
+ALTER TABLE marcas ADD origem VARCHAR(225)
+
+------------------------------------------------------------------
+Criando tabela inventario sincronizada com a de marcas
+
+USE carros;
+
+CREATE TABLE marcas(
+id INT NOT NULL AUTO_INCREMENT,
+ nome_marca VARCHAR(225) NOT NULL,
+ PRIMARY KEY (id)
+);
+
+CREATE TABLE inventario(
+id INT NOT NULL AUTO_INCREMENT,
+modelo VARCHAR(225) NOT NULL,
+transmissao VARCHAR(225) NOT NULL,
+motor VARCHAR(225) NOT NULL,
+combustivel VARCHAR(225) NOT NULL,
+marcas_id INT NOT NULL,
+ PRIMARY KEY (id),
+ FOREIGN KEY(marcas_id) REFERENCES marcas(id)
+);
+
+--------------------------------------------------------------
+Incerindo dados:
+Sempre inserir dados de acordo com a ordem das colunas.
+
+INSERT INTO marcas(nome_marca, origem)
+VALUES 
+('BMW', 'Alemanha'),
+('fiat', 'Italia'),
+('Mercedes Bens', 'Alemanha' ),
+('Renault', 'Franca' ),
+('Jaguar', 'Inglaterra');
+
+INSERT INTO inventario(modelo, transmissao, motor,combustivel, 
+marcas_id)
+VALUES 
+('BMW 218', 'automatica', '2.0','Gasolina', 1),
+('XE 2.0D', 'manual', '2.0','Disel', 5);
+--------------------------------------------------------------
+
+Visualizando a BD  de usuarios
+
+USE mysql;
+SELECT * FROM user
+
+ou 
+SELECT * FROM mysql.user	
+
+--------------------------------------------------------------
+Criando Usuario e senha 
+
+CREATE USER Alex IDENTIFIED BY '1212';
+
+*dessa forma pode acessar de qlq maquina
+--------------------------------------------------------------
+CREATE USER joao@localhost IDENTIFIED BY '1212';
+
+--------------------------------------------------------------
+Removendo usuarios
+
+DROP USER joao@localhost;
+--------------------------------------------------------------
+Recuperar ou trocar uma senha do usuario
+
+SET PASSOWORD FOR joao@localhost ='4444';
+
+*pode acessar somente da maquina local.
+-------------------------------------------------------------
+CREATE USER dudu@spacegamer.com IDENTIFIED BY '1212';
+
+*pode acessar somente de acordo com o dominio.
+--------------------------------------------------------------
+
+Verificar as permissoes do usuario
+
+SHOW GRANTS FOR Alex;
+
+-------------------------------------------------------------
+Libera permissoes:
+
+GRANT SELECT,INSERT, UPDATE, DELETE
+ON sakila.*
+TO Alex;
+
+--------------------------------------------------------------
+Liberar permissoes de adm para usuario
+
+GRANT ALL
+ON sakila.*
+TO Alex;
+--------------------------------------------------------------
+Permissao para tudo:
+
+GRANT ALL
+ON *.*
+TO Alex;
+---------------------------------------------------------------
+Removendo privilegio
+
+REVOKE UPDATE
+ON sakila.*
+FROM joao@localhost;
+
+
+
+***
+ALTER TABLE pessoa ADD endereco varchar(20) NOT NULL
+CRIAR UMA COLUNA NA TABELA PESSOA
+
+
+
+
+
+
