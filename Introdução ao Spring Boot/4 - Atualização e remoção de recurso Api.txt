@@ -1,0 +1,40 @@
+@DeleteMapping: Usado para função delete
+NO_CONTENT : Executou a função e não retornou nada.
+
+
+@DeleteMapping("/{codigo)")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void remover(@PathVariable Long codigo) {
+         pessoaRepository.delete(codigo);
+		
+	}
+
+**Anotação utilizada para tratamento de erro:
+@ExceptionHandler({informar o erro})
+public void handleEmptyResultDataAccessException(){
+}
+
+
+PUT realizar atualizações na api.
+
+put localhost:8080/pessoas/{codigo}
+
+
+
+**Comando para atualização
+@PutMapping("/codigo")
+
+public ResponseEntity<pessoa> atualizar(@PathVariable Long codigo, @valid @RequestBody Pessoa pessoa){
+if(pessoaSalva = null){
+throw new WMptyResultDataAccessException(1);
+}
+Pessoa pessoaSalva = pessoaRepository.findOne(codigo);
+BeanUtils.copyProperties(pessoa, pessoaSalva,"codigo");
+pessoaRepository.save(pessoaSalva);
+return ResponseEntity.ok(pessoaSalva);
+
+}
+
+
+@Service
+a classe será um componente spring 	

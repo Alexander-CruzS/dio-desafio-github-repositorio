@@ -1,0 +1,242 @@
+Depois de Instalar o STS 
+
+-New -> Spring Starter Project
+
+PREENCHER
+
+Name: (nome do projeto)
+Grup: (Grupo do projeto)
+Package(para gerar um pacote)
+
+NEXT -> *filtra pelo que usamos
+
+Web
+JPA
+DevTools (Ja faz o deploy da aplicação automaticamente)
+
+*application.properties: é onde configuramos o spring boot
+
+
+Configurando a conexão com banco** Classe application.properties
+
+spring.jpa.database=MYSQL
+
+spring.datasource.url=jdbc:mysql://localhost/algarmoneyapi?createDatabaseIFNotExist=true&useSSL=false 
+** lembra que o banco ja deve estar criado no mysql
+spring.datasource.username=root
+spring.datasource.password=123456
+
+
+spring.jpa.show-sql=true
+//mostra as consultas no log
+
+
+Flyway é uma ferramenta de migração de banco de dados de código aberto.
+<!-- Flyway -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+
+
+Criar uma pasta ->
+ex: bd/migration
+Criar um file ->
+ex: V01__criar_e_registrar_categorias.sql (** necessario sempre colocar 2 underline apos a versão)
+
+
+CREATE TABLE categoria (
+codigo BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
+nome varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO categoria (nome) values ('Laser');
+INSERT INTO categoria (nome) values ('Alimentação');
+INSERT INTO categoria (nome) values ('Supermercado');
+INSERT INTO categoria (nome) values ('Farmácia');
+INSERT INTO categoria (nome) values ('Outros');
+
+
+JpaRepository com ele você ganha varios metodos para utilizar
+ex: delete, atualizar etc
+
+@RestController
+Ja retorna é facilitado e convertido para JSON por exemplo
+
+@RequestMapping("/Categorias")
+Mapeamento da requisição.
+
+findAll()
+Faz um select * from para nós
+
+
+@Autowired
+Spring Quero que vc ache e entregue aqui para mim
+
+
+
+
+
+
+model
+
+@Entity
+@Table(name = "categoria")
+public class Categoria {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long codigo;
+	private String nome;
+	
+	public Long getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
+	}
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(codigo);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Categoria other = (Categoria) obj;
+		return Objects.equals(codigo, other.codigo);
+	}
+	
+	
+
+}
+
+
+
+
+repository
+
+public interface CategoriaRepository extends JpaRepository<Categoria,Long>{
+
+}
+
+
+resource
+
+@RestController
+@RequestMapping("/categorias")
+public class CategoriaResource {
+	
+	@Autowired
+	private CategoriaRepository categoriaRepository;
+
+	@GetMapping
+	public List<Categoria> listar(){
+		return categoriaRepository.findAll();
+	}
+	
+}
+
+
+
+
+
+@ResponseStatus(HttpStatus.CREATED)
+Ao terminar a execução desse metodo eu quer que retorna um responseStatus. create
+
+
+
+**ERRO NO .FindOne**
+Tenta trocar pelo getOne(id).. Parece que o findOne() foi descontinuado, talvez a sua versão do spring seja diferente da versão da video aula, por isso apresenta essa incompatibilidade.. ou usando o .findById(codigo).orElse(null)
+
+Ex:
+@GetMapping("/{codigo}")
+	public Categoria buscaPeloCodigo(@PathVariable Long codigo) {
+		return categoriaRepository.findById(codigo).orElse(null);
+	}
+
+}
+
+
+
+spring.jackson.deserialization.fail-on-unknown-properties=true
+**Utilizado para reverter Json em Java e vice versa. Mostra um erro, caso queira adicionar propriedades inexistentes.
+
+
+Status code:
+2xx -> sucesso
+4xx -> Erro do cliente
+5xx -> Erro no serviço/servidor
+
+
+
+@ControllerAdvice
+Consegue compartilhar essa classe em todos os controles, fica disponivel para aplicação e podemos capturar todas as exceções.
+
+
+	@NotNull valida campos nul
+      @Size valida quantidade de letras ou espaços nos campos 
+
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-validation</artifactId>
+</dependency>
+
+**Na nova versão do STS é necessario baixar essa dependencia para anotação.
+
+
+@Embedded
+@Embeddable
+
+-criar tabela pessoa
+
+
+
+CREATE TABLE pessoa (
+codigo BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
+nome varchar(20) NOT NULL,
+logradouro varchar(30), 
+numero varchar(20), 
+complemento varchar(20),
+bairro varchar(20),
+cep varchar(20),
+cidade varchar(20),
+estado varchar(20),
+ativo BOLLEAN NOT NULL
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO pessoa (nome,logradouro,numero,complemento,bairro,cep,cidade,estado,ativo) values('alexander', 'rua x', '40', 'ap 4',' morumba', '333', 'udia', 'MG', true)
+
+
+
+
+
+
+CREATE TABLE pessoa (
+  codigo bigint NOT NULL AUTO_INCREMENT,
+  nome varchar(20) NOT NULL,
+  ativo varchar(225) NOT NULL,
+  endereco varchar(20) DEFAULT NULL,
+  logradouro varchar(30) NOT NULL,
+  numero varchar(20) NOT NULL,
+  complemento varchar(20) DEFAULT NULL,
+  bairro varchar(20) NOT NULL,
+  cep varchar(20) NOT NULL,
+  cidade varchar(20) NOT NULL,
+  estado varchar(20) NOT NULL,
+  
+  PRIMARY KEY (codigo)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3

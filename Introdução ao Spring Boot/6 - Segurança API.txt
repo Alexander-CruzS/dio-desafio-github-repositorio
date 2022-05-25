@@ -1,0 +1,16 @@
+OAuth 2 :
+Possibilita que as aplicações tenha um acesso limitado. Aplicações terceiras podem acessar seus dados sem utilizar usuario e senha.
+
+Authorization Server: Servidor que da a autorização
+
+
+Resource Server: Servidor que contem os recursos.
+
+
+Dependencia para utilizar o OAuth 2
+
+	<dependency>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+			<version>2.5.1.RELEASE</version>
+	</dependency>

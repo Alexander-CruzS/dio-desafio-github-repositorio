@@ -1,0 +1,125 @@
+A partir da ORI(URL) conseguimos identificar os recursos.
+
+REPRESENTAÇÃO DO RECURSO.
+
+http://barcelona.com/jogadores/10
+
+representado pela Imagem, formato JSON, formato XML
+
+-Modelo de maturidade Richardson
+
+NIVEL 0: Não é REST
+Usa HTTP só para transporte.
+Chama um unico serviço
+
+ex:
+POST/servicoAgendamento HTTP/1.1
+
+<buscarHorariosDisponiveis data = "2017-10-02" medico = "pereira">
+ 
+
+NIVEL 1: Ainda não é REST
+Chama os recursos, mas ainda não estamos usando os verbos, metodos e os codigos de resposta de uma forma ideal.
+
+ex:
+POST/medico/pereira HTTP/1.1
+
+<buscarHorariosDisponiveis data = "2017-10-02"/>
+
+
+NIVEL 2: Já pode considerar como REST
+
+
+ex:
+GET /medicos/pereira/horarops?data=2017-10-02&status=disponivel HTTP/1.1
+
+
+Retorno:
+
+HTTP 1.1 200 OK
+
+<horarios>
+<horarios id="1234" medico = "pereira" inicio = "14:00" fim = "14:50"/>
+<horarios id="5678" medico = "pereira" inicio = "16:00" fim = "16:50"/>
+</horarios>
+
+
+Agendamento 
+POST/horario/1234 HTTP/1.1
+<paciente nome = "Ricardo"/>
+
+
+NIVEL 3: Aqui é o REST completo
+- Na resposta e uma requisição o que está retornando ja pode nos dizer como podemos fazer uma nova requisição. 
+
+- O que tem de novo.
+
+- Muda somente a forma que trás as respostas.
+
+
+ex:
+GET /medicos/pereira/horarops?data=2017-10-02&status=disponivel HTTP/1.1
+
+
+Retorno:
+
+HTTP 1.1 200 OK
+
+ <horarios>
+    <horarios id="1234" medico = "pereira" inicio = "14:00" fim = "14:50"/>
+    <link url= "horario/1234" rel= "agendar"/>
+ </horarios>
+     <horarios id="5678" medico = "pereira" inicio = "16:00" fim = "16:50"/>
+     <link url= "horario/5678" rel= "agendar"/>
+ </horarios>
+
+
+HATEOAS:
+- Parte de retorno que diz como fazer outras açoes.
+- representado pelas propriedades link
+
+HAL: forma de escrever a parte de link no spring.
+
+Ex:
+
+<contaCorrente>
+   <agencia>1010 </agencia>
+   <numero>1234-5 </numero>
+   <saldo>550     </saldo>
+   <link rel = "deposito" uri "conta/1234-5/deposito"
+   <link rel = "saque" uri "conta/1234-5/saque"
+</contaCorrente>
+
+
+
+
+Segurança de APIs REST
+
+HTTPS: A informação que sai de um cliente ate o servidor está protegida.
+
+Autenticação e Autorização
+Conseguir falar quem vc é e autorizar.
+
+BASIC: Deve enviar usuario e senha.
+
+DIGEST: Um pouco mais seguro.
+
+CERTIFICADO: Fica mais seguro quanto cliente, quanto servidor.
+
+TOKENS: Passa as credenciais para o servidor e ele te passa um Token e toda vez que vc for acessar a api vc tem que colocar o mesmo.
+
+
+OAuth: 
+A autenticação OAuth é um protocolo de autenticação de servidor para servidor que permite que aplicativos autentiquem uns aos outros. Com a autenticação OAuth, as credenciais e senhas do usuário não são transferidas de um computador para outro.
+
+
+
+
+Idempotência
+ Um metodo é considerado idempotente se o resultado por ele produzido é o mesmo independente do numero de vezes que é execultado.
+
+DELETE: Deletar clientes
+GET: Fazer somente leitura
+PUT: utilizado para atualizar algo no servidor
+
+(Não é Idepontente)POST: Inserir um novo cliente no banco de dados(Não é seguro )

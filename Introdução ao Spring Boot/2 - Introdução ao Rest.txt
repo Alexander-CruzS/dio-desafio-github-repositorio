@@ -1,0 +1,25 @@
+SOFEA:(Service Oriented front-end architecture)
+Arquitetura de front end orientada a serviços.
+ 
+- Remover toda a logica de apresentação do servidor e levar para o cliente.
+- Desenvolvimento assincrono do front end e back end (Separar o back e o front )
+- Escalabilidade
+- Melhor experiencia do usuario e baixa latencia.
+
+
+API Rest (é uma arquitetura)
+Uma forma de integrar dois sistemas.
+
+
+Rest-full
+É uma implementação usando os conseitos de rest.
+
+Protocolo HTTP:
+
+HTTP Request
+requisição 
+
+HTTP Response
+Resposta
+
+ex: Postman enviou uma request para o mocky e o mocky retornou a resposta.

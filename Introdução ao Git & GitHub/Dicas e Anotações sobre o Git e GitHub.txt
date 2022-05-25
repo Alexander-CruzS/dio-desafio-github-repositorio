@@ -196,3 +196,10 @@ COMO FAZER O CLONE
 Comando ** git clone "informar o http do github "
 
 **DEPOIS DE CRIAR O REPOSITORIO NO GITHUB É NECESSARIO REALIZAR O COMMIT NO PROPRIO GITHUB E DEPOIS REALIZAR O CLONE
+
+Passo a passo para enviar arquivo para o GITHUB
+-> git clone git@github.com:Alexander-CruzS/dio-desafio-github-repositorio.git
+-> cd (entra na pasta)
+-> git add .
+-> git commit -m "Inclusão das anotações do curso MySQL"
+-> git push origin main
