@@ -203,3 +203,5 @@ Passo a passo para enviar arquivo para o GITHUB
 -> git add .
 -> git commit -m "Inclusão das anotações do curso MySQL"
 -> git push origin main
+
+fim
